@@ -1,0 +1,361 @@
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,700,600,400|Rubik:400");
+
+* {
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.home {
+  background-color: #22262f;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* الخلفيات */
+.home .vector,
+.home .vector-2,
+.home .img {
+  position: absolute;
+  z-index: 1;
+  opacity: 0.9;
+}
+
+/* ==============================
+   القائمة الجانبية
+   ============================== */
+.frame {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  height: 100vh;
+  background-color: #2d313b;
+  padding-top: 40px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* 🎨 تحسين شكل اللوقو داخل القائمة الجانبية */
+.image {
+  width: 120px;                /* حجم متناسق */
+  display: block;              /* يخليه في سطر مستقل */
+  margin: 5px auto 10px auto; /* فراغ من الأعلى والأسفل */
+  transform: translateX(-2px); /* تحريك بسيط لليمين */
+  transition: transform 0.3s ease; /* حركة سلسة عند hover */
+}
+
+
+
+.text-wrapper {
+  color: #fff;
+  font-size: 26px;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.p {
+  color: #aaa;
+  font-size: 12px;
+  text-align: center;
+  margin-top: 5px;
+  line-height: 1.4;
+}
+
+/* أزرار القائمة الجانبية */
+.side-btn {
+  background: none;
+  border: none;
+  color: #8b8c91;
+  font-size: 17px;
+  padding: 15px 30px;
+  text-align: left;
+  width: 100%;
+  cursor: pointer;
+  transition: 0.3s;
+  font-family: "Rubik", sans-serif;
+}
+
+.side-btn:hover,
+.side-btn.active {
+  background-color: rgba(17, 188, 169, 0.15);
+  color: #fff;
+  border-left: 4px solid #11bca9;
+}
+
+/* ملف المستخدم أسفل القائمة */
+.frame-13 {
+  margin-top: auto;
+  padding: 15px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  background-color: rgba(57, 67, 89, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.user-name {
+  font-size: 18px;
+  font-family: "Raleway", sans-serif;
+  font-weight: 600;
+}
+
+/* ==============================
+   المحتوى الرئيسي
+   ============================== */
+.content {
+  margin-left: 270px;
+  padding: 60px;
+  color: #fff;
+  font-family: "Raleway", sans-serif;
+  z-index: 2;
+  position: relative;
+}
+
+.page {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.page.active {
+  display: block;
+}
+
+/* العناوين داخل الصفحات */
+.page h2 {
+  font-size: 28px;
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.page p {
+  color: #c9c9c9;
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 800px;
+}
+
+/* أنيميشن الانتقال بين الصفحات */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==============================
+   Responsiveness
+   ============================== */
+@media (max-width: 992px) {
+  .frame {
+    width: 200px;
+  }
+  .content {
+    margin-left: 220px;
+    padding: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .frame {
+    position: relative;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: #2d313b;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .side-btn {
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    border-left: none !important;
+  }
+
+  .frame-13 {
+    display: none;
+  }
+
+  .content {
+    margin-left: 0;
+    padding: 25px;
+  }
+}
+
+@media (max-width: 576px) {
+  .text-wrapper {
+    font-size: 20px;
+  }
+
+  .p {
+    display: none;
+  }
+
+  .side-btn {
+    font-size: 12px;
+  }
+
+  .home .vector,
+  .home .vector-2,
+  .home .img {
+    display: none;
+  }
+}
+/* ==============================
+   🔹 KPI Cards Section (Dashboard Stats)
+   ============================== */
+.kpi-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.kpi-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 18px 20px;
+  border-radius: 14px;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kpi-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+.kpi-icon {
+  font-size: 30px;
+}
+
+.kpi-info h3 {
+  font-size: 26px;
+  margin: 0;
+  font-weight: bold;
+}
+
+.kpi-info p {
+  margin: 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* ألوان الكروت */
+.kpi-persons {
+  background-color: #5c6bc0;
+}
+.kpi-alerts {
+  background-color: #e57373;
+}
+.kpi-spills {
+  background-color: #4dd0e1;
+}
+.kpi-compliance {
+  background-color: #81c784;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .kpi-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .kpi-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.chart-box canvas {
+  width: 80% !important;
+  height: 220px !important;
+  display: block;
+  margin: 0 auto;
+}
+
+.chart-box .legend {
+  justify-content: flex-start;
+}
+.chart-box h3,
+.chart-box .legend-item {
+  text-align: left;
+}
+/* إخفاء الأرقام (Ticks) من جميع المحاور */
+.chart-box canvas {
+  width: 80% !important;
+  height: 220px !important;
+  display: block;
+  margin: 0 auto;
+}
+
+.chart-box .legend {
+  justify-content: flex-start;
+}
+
+/* يخفي الأرقام من جميع التشارتات (line/bar/pie/doughnut) */
+.chart-box .chartjs-render-monitor {
+  /* بس احتياط لتوحيد الشكل */
+}
+
+.chart-box canvas + div,
+.chart-box canvas {
+  /* يمنع عرض أي قيم نصية */
+}
+
+.chart-box h3,
+.chart-box .legend-item {
+  text-align: left;
+}
+
+#tableContainer {
+  background: #2e323c;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+  max-height: 500px;
+  overflow: auto;
+  overflow-x: auto; /* ✅ تحريك أفقي */
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* تحسين شكل السحب الأفقي */
+#tableContainer::-webkit-scrollbar {
+  height: 10px;
+}
+#tableContainer::-webkit-scrollbar-thumb {
+  background-color: #077e71;
+  border-radius: 10px;
+}
+#tableContainer::-webkit-scrollbar-track {
+  background-color: #1f232b;
+}
+
+
+

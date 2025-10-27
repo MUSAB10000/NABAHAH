@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/signin_style.css" />
+    <title>Sign In | Nabah</title>
+
+    <style>
+      /* 🔽 يحرك اللوقو + النص كامل لتحت */
+      .frame-2 {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-top: 26px; /* مقدار النزول */
+      }
+
+      .image-2 {
+        width: 150px;
+        height: auto;
+      }
+
+      .frame-3 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .text-wrapper-4 {
+        font-size: 26px;
+        font-weight: 700;
+        color: white;
+      }
+
+      .text-wrapper-5 {
+        font-size: 14px;
+        color: #ccc;
+        margin: 0;
+      }
+
+      .toggle-password {
+        cursor: pointer;
+      }
+
+      .toggle-password svg {
+        width: 22px;
+        height: 22px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="home">
+      <!-- 🔹 الشعار -->
+      <div class="frame-2">
+        <img
+          class="image-2"
+          src="https://c.animaapp.com/eXlg37cB/img/logo1_1.png" 
+          alt="Nabah logo"
+        />
+        <div class="frame-3">
+          <div class="div-wrapper"><div class="text-wrapper-4">Nabah</div></div>
+          <div class="frame-4">
+            <p class="text-wrapper-5">
+              Where intelligence meets laboratory safety
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="signup-page">
+        <!-- 🔹 صورة جانبية -->
+        <div class="image-section">
+          <img
+            class="image"
+            src="https://c.animaapp.com/eXlg37cB/img/image.svg"
+            alt="illustration"
+          />
+          <p class="explore-icons">
+            Start your journey with Nabah — Smart Lab Safety Monitoring!
+          </p>
+        </div>
+
+        <!-- 🔹 نموذج تسجيل الدخول -->
+        <div class="form-section">
+          <h2>Sign in</h2>
+
+          <form action="/signin" method="post">
+            <!-- Username or Email -->
+            <div class="form-input">
+              <label>Username or Email</label>
+              <div class="input-box">
+                <input
+                  type="text"
+                  name="username"
+                  id="username"
+                  placeholder="Enter your username or email"
+                  required
+                />
+                <img
+                  src="https://c.animaapp.com/eXlg37cB/img/ph-user.svg"
+                  alt="user icon"
+                />
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="form-input">
+              <label>Password</label>
+              <div class="input-box">
+                <input
+                  class="password-input"
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Enter your password"
+                  required
+                />
+                <!-- 👁️ زر العين -->
+                <span class="toggle-password" style="cursor:pointer;">
+                  <!-- 👁️ العين المفتوحة -->
+                  <svg class="eye-on" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none">
+                    <path d="M12 5C7 5 2.73 8.11 1 12.5C2.73 16.89 7 20 12 20C17 20 21.27 16.89 23 12.5C21.27 8.11 17 5 12 5Z" stroke="#AEAEAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="12" cy="12.5" r="3.5" stroke="#AEAEAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <!-- 👁️‍🗨️ العين المقفلة -->
+                  <svg class="eye-off" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" style="display:none;">
+                    <path d="M3 3L21 21" stroke="#AEAEAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10.584 10.587C10.2087 10.962 9.99775 11.4708 9.99756 12.0013C9.99737 12.5318 10.208 13.0408 10.583 13.416C10.958 13.7913 11.4668 14.0022 11.9973 14.0024C12.5278 14.0026 13.0368 13.792 13.412 13.417" stroke="#AEAEAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M9.363 5.365C10.2204 5.11972 11.1082 4.99684 12 5C17 5 21.27 8.11 23 12.5C22.3206 14.0661 21.3331 15.4872 20.095 16.688" stroke="#AEAEAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M6.61 6.61C4.62125 7.96462 2.99219 9.77099 1.85999 11.878C1.77386 12.0393 1.72852 12.2186 1.72852 12.4007C1.72852 12.5828 1.77386 12.7621 1.85999 12.9235C3.58999 17.3125 7.85999 20.4225 12.86 20.4225C14.6953 20.4368 16.5094 20.0333 18.17 19.2415" stroke="#AEAEAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+
+            <!-- 🔹 زر تسجيل الدخول -->
+            <div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
+              <button type="submit" class="signin-btn">
+                Sign In
+              </button>
+
+              {% if error %}
+                <p style="color:#ff6b6b; font-size:14px; margin-top:8px;">
+                  {{ error }}
+                </p>
+              {% endif %}
+            </div>
+          </form>
+
+          <!-- 🔹 رابط إنشاء حساب -->
+          <div class="footer-text" style="margin-top:18px;">
+            Don’t have an account? <a href="/signup">Sign Up</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const togglePassword = document.querySelector(".toggle-password");
+    const passwordInput = document.querySelector(".password-input");
+    const eyeOff = togglePassword.querySelector(".eye-off");
+    const eyeOn = togglePassword.querySelector(".eye-on");
+
+    // 🔒 الحالة الافتراضية (مقفول)
+    passwordInput.type = "password";
+    eyeOff.style.display = "inline";
+    eyeOn.style.display = "none";
+
+    // 👁️ التبديل عند الضغط
+    togglePassword.addEventListener("click", function () {
+      const isHidden = passwordInput.type === "password";
+      passwordInput.type = isHidden ? "text" : "password";
+      eyeOn.style.display = isHidden ? "inline" : "none";
+      eyeOff.style.display = isHidden ? "none" : "inline";
+    });
+  });
+</script>
+
+
+  </body>
+</html>

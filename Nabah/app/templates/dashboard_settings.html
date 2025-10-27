@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/static/dashboard_style.css" />
+  <title>Settings | Nabah</title>
+  <style>
+    body {
+      background-color: #1c1e25;
+      color: white;
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .content { flex: 1; padding: 40px 50px; }
+
+    h2 { font-size: 26px; font-weight: 600; margin-bottom: 5px; }
+    .muted { color: #aaa; font-size: 13px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 25px;
+      background-color: #2e323c;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      vertical-align: middle;
+    }
+    th {
+      background-color: #077E71;
+      font-weight: 600;
+      color: #fff;
+    }
+    tr:hover { background-color: rgba(255,255,255,0.05); }
+
+    .desc {
+      color: #aaa;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    /* ✅ سويتش تشغيل/إيقاف */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 55px;
+      height: 28px;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #555;
+      transition: .3s;
+      border-radius: 34px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px; width: 20px;
+      left: 4px; bottom: 4px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+    input:checked + .slider { background-color: #077E71; }
+    input:checked + .slider:before { transform: translateX(26px); }
+
+    /* 🚪 زر اللوق آوت داخل الصفحة */
+    .logout-section {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 30px;
+    }
+
+    .logout-btn {
+      background-color: #2e323c;
+      border: 1px solid #077E71;
+      color: #fff;
+      border-radius: 10px;
+      padding: 12px 26px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logout-btn:hover {
+      background-color: #077E71;
+      box-shadow: 0 0 10px rgba(7,126,113,0.5);
+      transform: translateY(-2px);
+    }
+
+    .logout-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    /* Dropdown */
+    .user-dropdown {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 30px;
+    }
+    .user-name {
+      cursor: pointer;
+      padding: 10px 16px;
+      background: #2e323c;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-width: 180px;
+      text-align: center;
+      font-weight: 600;
+      color: #fff;
+    }
+    .user-name::after {
+      content: "⌄";
+      font-size: 14px;
+      color: #aaa;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      bottom: 45px;
+      background-color: #ffffff;
+      min-width: 120px;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.15);
+      border-radius: 8px;
+      text-align: center;
+      z-index: 9999;
+    }
+    .dropdown-content a {
+      color: #333;
+      padding: 10px;
+      display: block;
+      text-decoration: none;
+      border-bottom: 1px solid #eee;
+    }
+    .input-group {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  color: #fff;
+}
+
+.input-group label {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.input-group select {
+  background-color: #2e323c;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 15px;
+  outline: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.input-group select:hover {
+  border-color: #07b59c;
+}
+
+    .dropdown-content a:hover { background-color: #f2f2f2; }
+  </style>
+</head>
+
+<body>
+  <div class="home">
+    <!-- Sidebar -->
+    <div class="frame">
+      <div class="frame-2">
+        <div class="frame-3">
+          <img class="image" src="https://c.animaapp.com/eXlg37cB/img/logo1_1.png" />
+          <div class="frame-4">
+            <div class="frame-5"><p class="p">Where intelligence meets laboratory safety</p></div>
+          </div>
+        </div>
+
+        <div class="group-2">
+          <a href="/dashboard/overview"><button class="side-btn">Dashboard</button></a>
+          <a href="/dashboard/live"><button class="side-btn">Live Monitoring</button></a>
+          <a href="/dashboard/database"><button class="side-btn">Database</button></a>
+          <a href="/dashboard/settings"><button class="side-btn active">Settings</button></a>
+        </div>
+      </div>
+
+      <div class="frame-13">
+        <div class="user-dropdown" id="userMenuToggle">
+          <div class="user-name">Mawda</div>
+          <div class="dropdown-content" id="userDropdown">
+            <a href="/logout">Log out</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🟢 المحتوى -->
+    <div class="content">
+      <h2>Settings</h2>
+      <p class="muted">Manage model activation and control detection modules.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Enable / Disable</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Glasses Detection<div class="desc">Detects if personnel are wearing protective goggles.</div></td><td><label class="switch"><input type="checkbox" checked onchange="toggleModel('glasses', this.checked)"><span class="slider"></span></label></td></tr>
+          <tr><td>Labcoat Detection<div class="desc">Identifies proper use of lab coats during work.</div></td><td><label class="switch"><input type="checkbox" checked onchange="toggleModel('labcoat', this.checked)"><span class="slider"></span></label></td></tr>
+          <tr><td>Mask Detection<div class="desc">Ensures compliance with mask and respirator usage.</div></td><td><label class="switch"><input type="checkbox" checked onchange="toggleModel('mask', this.checked)"><span class="slider"></span></label></td></tr>
+          <tr><td>Gloves Detection<div class="desc">Verifies hand protection and glove compliance.</div></td><td><label class="switch"><input type="checkbox" checked onchange="toggleModel('gloves', this.checked)"><span class="slider"></span></label></td></tr>
+          <tr><td>Spill Detection<div class="desc">Detects chemical or liquid spills in the lab area.</div></td><td><label class="switch"><input type="checkbox" checked onchange="toggleModel('liquid', this.checked)"><span class="slider"></span></label></td></tr>
+        </tbody>
+      </table>
+
+      <!-- 🚪 زر اللوق آوت داخل الصفحة -->
+      <div class="logout-section">
+        <a href="/logout">
+          <button class="logout-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M16 13v-2H7V8l-5 4 5 4v-3h9zM20 3h-8a2 2 0 0 0-2 2v4h2V5h8v14h-8v-4h-2v4a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/>
+            </svg>
+            Log out
+          </button>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const toggle=document.getElementById("userMenuToggle");
+    const dropdown=document.getElementById("userDropdown");
+    toggle.addEventListener("click",()=>{
+      const open=dropdown.style.display==="block";
+      dropdown.style.display=open?"none":"block";
+      toggle.classList.toggle("open",!open);
+    });
+    document.addEventListener("click",(e)=>{
+      if(!document.querySelector(".user-dropdown").contains(e.target)){
+        dropdown.style.display="none";
+        toggle.classList.remove("open");
+      }
+    });
+
+    async function toggleModel(model, isChecked){
+      const action = isChecked ? "start" : "stop";
+      try{
+        const res = await fetch(`/api/model/${model}/${action}`, { method: "POST" });
+        const data = await res.json();
+        alert(`${model.toUpperCase()} Model ${isChecked ? "Started ✅" : "Stopped 🛑"}\n${data.message || ""}`);
+      }catch(e){
+        console.error("❌ Error:", e);
+        alert("⚠️ Failed to toggle model.");
+      }
+    }
+  </script>
+</body>
+</html>

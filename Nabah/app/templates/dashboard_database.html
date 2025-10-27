@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="/static/dashboard_style.css" />
+  <title>Database | Nabah</title>
+  <style>
+    body {
+      background-color: #1c1e25;
+      color: white;
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      background-color: #2e323c;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    th {
+      background-color: #077E71;
+      color: #fff;
+      font-weight: 600;
+    }
+    tr:hover { background-color: rgba(255,255,255,0.05); }
+
+    .table-btn {
+      background: #2e323c;
+      color: white;
+      border: 1px solid #3a3f4b;
+      border-radius: 8px;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .table-btn:hover { background: #09997d; }
+    .table-btn.active { background: #077E71; }
+
+    #tableContainer { margin-top: 20px; overflow-x: auto; }
+
+    /* 🟢 User dropdown */
+    .user-dropdown {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 30px;
+    }
+    .user-name {
+      cursor: pointer;
+      padding: 10px 16px;
+      background: #2e323c;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-width: 180px;
+      text-align: center;
+      font-weight: 600;
+      color: #fff;
+    }
+    .user-name::after {
+      content: "⌄";
+      font-size: 14px;
+      color: #aaa;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      bottom: 45px;
+      background-color: #ffffff;
+      min-width: 120px;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.15);
+      border-radius: 8px;
+      text-align: center;
+      z-index: 9999;
+    }
+    .dropdown-content a {
+      color: #333;
+      padding: 10px;
+      display: block;
+      text-decoration: none;
+      border-bottom: 1px solid #eee;
+    }
+    .dropdown-content a:hover { background-color: #f2f2f2; }
+
+    /* 🟢 Chatbot */
+    .db-chat-fab {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      background: #077E71;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 55px;
+      height: 55px;
+      font-size: 22px;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+      z-index: 2000;
+    }
+    .db-chat-panel {
+      display: none;
+      position: fixed;
+      bottom: 95px;
+      right: 25px;
+      width: 340px;
+      height: 70vh;
+      background: #2E323C;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+      z-index: 3000;
+    }
+    .db-chat-header {
+      background: #077E71;
+      padding: 10px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .db-chat-body {
+      height: calc(70vh - 90px);
+      overflow-y: auto;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .db-chat-input {
+      display: flex;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .db-chat-input input {
+      flex: 1;
+      border: none;
+      outline: none;
+      padding: 8px;
+      background: #1f232b;
+      color: white;
+    }
+    .db-chat-input button {
+      background: #077E71;
+      border: none;
+      color: white;
+      padding: 8px 14px;
+      cursor: pointer;
+    }
+    .db-msg { padding: 6px 10px; border-radius: 8px; margin-bottom: 6px; max-width: 90%; }
+    .db-msg.bot { background: #3a3f4b; align-self: flex-start; }
+    .db-msg.user { background: #077E71; align-self: flex-end; text-align: right; }
+    /* 🟢 Modern Chatbot */
+.db-chat-fab {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background: linear-gradient(135deg, #077E71, #0aa784);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 58px;
+  height: 58px;
+  font-size: 22px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+  transition: all 0.25s ease;
+  z-index: 2000;
+}
+.db-chat-fab:hover { transform: scale(1.1); }
+
+.db-chat-panel {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  width: 380px;
+  height: 70vh;
+  background: rgba(46, 50, 60, 0.92);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  animation: fadeIn 0.4s ease;
+  z-index: 3000;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.db-chat-header {
+  background: linear-gradient(135deg, #077E71, #09997d);
+  padding: 12px 16px;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.db-chat-close {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.db-chat-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.db-chat-body::-webkit-scrollbar {
+  width: 6px;
+}
+.db-chat-body::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.2);
+  border-radius: 4px;
+}
+
+.db-msg {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  word-wrap: break-word;
+  animation: msgPop 0.3s ease;
+}
+@keyframes msgPop {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.db-msg.bot { background: rgba(255,255,255,0.08); color: #eee; align-self: flex-start; }
+.db-msg.user { background: linear-gradient(135deg, #0aa784, #077E71); color: white; align-self: flex-end; }
+
+/* Typing dots */
+.typing {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 12px;
+  width: fit-content;
+}
+.dot {
+  width: 6px;
+  height: 6px;
+  background: #ccc;
+  border-radius: 50%;
+  animation: blink 1.4s infinite;
+}
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes blink {
+  0%, 80%, 100% { opacity: 0.3; transform: translateY(0); }
+  40% { opacity: 1; transform: translateY(-2px); }
+}
+
+.db-chat-input {
+  display: flex;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+}
+.db-chat-input input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 10px;
+  color: white;
+  font-size: 14px;
+}
+.db-chat-input button {
+  background: #0aa784;
+  border: none;
+  color: white;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.db-chat-input button:hover { background: #11c7a7; }
+
+  </style>
+</head>
+
+<body>
+  <div class="home">
+    <!-- Sidebar -->
+    <div class="frame">
+      <div class="frame-2">
+        <div class="frame-3">
+          <img class="image" src="https://c.animaapp.com/eXlg37cB/img/logo1_1.png" />
+          <div class="frame-4">
+            <div class="frame-5"><p class="p">Where intelligence meets laboratory safety</p></div>
+          </div>
+        </div>
+   
+        <div class="group-2">
+          <a href="/dashboard/overview"><button class="side-btn">Dashboard</button></a>
+          <a href="/dashboard/live"><button class="side-btn">Live Monitoring</button></a>
+          <a href="/dashboard/database"><button class="side-btn active">Database</button></a>
+          <a href="/dashboard/settings"><button class="side-btn">Settings</button></a>
+        </div>
+      </div>
+
+      <div class="frame-13">
+        <div class="user-dropdown" id="userMenuToggle">
+          <div class="user-name">{{ user.username }}</div>
+          <div class="dropdown-content" id="userDropdown">
+            <a href="/logout">Log out</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- المحتوى -->
+    <div class="content">
+      <h2>Database</h2>
+      <p>View and export data from Supabase tables.</p>
+
+      <div style="margin-bottom: 20px;">
+        <button class="table-btn" data-table="persons">Persons</button>
+        <button class="table-btn" data-table="alerts">Alerts</button>
+        <button class="table-btn" data-table="spills">Spills</button>
+        <button class="table-btn" data-table="videos">Videos</button>
+        <button class="table-btn" data-table="detections">Detections</button>
+        <button class="table-btn" data-table="clips">Clips</button>
+      </div>
+
+      <div id="tableContainer"><p>Select a table to view its data.</p></div>
+    </div>
+  </div>
+
+  <!-- 💬 Modern Chatbot -->
+<button class="db-chat-fab" id="dbChatFab">💬</button>
+
+<div class="db-chat-panel" id="dbChatPanel">
+  <div class="db-chat-header">
+    <div class="db-chat-title">DB Assistant</div>
+    <button id="dbChatClose" class="db-chat-close">×</button>
+  </div>
+
+  <div class="db-chat-body" id="dbChatBody">
+    <div class="db-msg bot">👋 Hi! I’m your AI assistant — ask me anything about the lab database.</div>
+  </div>
+
+  <div class="db-chat-input">
+    <input id="dbChatInput" placeholder="Type your question..." />
+    <button id="dbChatSend">Send</button>
+  </div>
+</div>
+<script>
+  // 🔽 Dropdown نفس الداشبورد
+  const toggle = document.getElementById("userMenuToggle");
+  const dropdown = document.getElementById("userDropdown");
+  toggle.addEventListener("click", () => {
+    const open = dropdown.style.display === "block";
+    dropdown.style.display = open ? "none" : "block";
+    toggle.classList.toggle("open", !open);
+  });
+  document.addEventListener("click", (e) => {
+    if (!document.querySelector(".user-dropdown").contains(e.target)) {
+      dropdown.style.display = "none";
+      toggle.classList.remove("open");
+    }
+  });
+
+  let globalDatabase = null;
+  let activeTable = null;
+
+  async function loadDatabase() {
+    try {
+      const res = await fetch("/api/database");
+      const data = await res.json();
+      globalDatabase = data;
+
+      const buttons = document.querySelectorAll(".table-btn");
+      const container = document.getElementById("tableContainer");
+
+      buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          buttons.forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+
+          const table = btn.dataset.table;
+          const tableData = data[table];
+          activeTable = table;
+
+          if (!tableData || tableData.length === 0) {
+            container.innerHTML = `<p>No data available for <b>${table}</b>.</p>`;
+            return;
+          }
+
+          // حذف الأعمدة الغير مرغوبة
+          const filteredData = tableData.map(row => {
+            const newRow = { ...row };
+            if (table === "videos") delete newRow.user_id;
+            if (table === "detections") delete newRow.person_id;
+            return newRow;
+          });
+
+          const columns = Object.keys(filteredData[0]);
+          let html = `
+            <div style="display:flex; gap:10px; margin-bottom:12px;">
+              <button class="table-btn" id="exportCurrentBtn">⬇️ Export This Table</button>
+              <button class="table-btn" id="exportAllBtn">📦 Export All Tables</button>
+            </div>
+            <h3>${table.toUpperCase()} Table</h3>
+            <table>
+              <thead><tr>${columns.map(c => `<th>${c}</th>`).join("")}</tr></thead>
+              <tbody>
+                ${filteredData.map(r => `<tr>${columns.map(c => `<td>${r[c] ?? ""}</td>`).join("")}</tr>`).join("")}
+              </tbody>
+            </table>`;
+          container.innerHTML = html;
+
+          document.getElementById("exportCurrentBtn").addEventListener("click", () => exportToExcel("selected", table));
+          document.getElementById("exportAllBtn").addEventListener("click", () => exportToExcel("all"));
+        });
+      });
+
+      // ✅ عرض جدول "Persons" تلقائيًا عند تحميل الصفحة
+      document.querySelector('.table-btn[data-table="persons"]').click();
+
+    } catch (e) {
+      console.error("❌ Error loading database:", e);
+    }
+  }
+
+  async function exportToExcel(type, tableName = null) {
+    try {
+      if (!globalDatabase) { alert("Please wait, loading database..."); return; }
+
+      if (!window.XLSX) {
+        const s = document.createElement("script");
+        s.src = "https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js";
+        document.head.appendChild(s);
+        await new Promise(r => s.onload = r);
+      }
+
+      const wb = XLSX.utils.book_new();
+      if (type === "selected" && tableName && globalDatabase[tableName]) {
+        const ws = XLSX.utils.json_to_sheet(globalDatabase[tableName]);
+        XLSX.utils.book_append_sheet(wb, ws, tableName);
+      } else if (type === "all") {
+        Object.keys(globalDatabase).forEach(key => {
+          const ws = XLSX.utils.json_to_sheet(globalDatabase[key]);
+          XLSX.utils.book_append_sheet(wb, ws, key);
+        });
+      }
+      XLSX.writeFile(wb, type === "selected" ? `${tableName}_table.xlsx` : "all_tables.xlsx");
+    } catch (err) {
+      console.error("❌ Excel export error:", err);
+    }
+  }
+
+const dbFab = document.getElementById("dbChatFab");
+const dbPanel = document.getElementById("dbChatPanel");
+const dbClose = document.getElementById("dbChatClose");
+const dbSend = document.getElementById("dbChatSend");
+const dbInput = document.getElementById("dbChatInput");
+const dbBody = document.getElementById("dbChatBody");
+
+function dbAppend(role, text) {
+  const div = document.createElement("div");
+  div.className = "db-msg " + (role === "user" ? "user" : "bot");
+  div.textContent = text;
+  dbBody.appendChild(div);
+  dbBody.scrollTop = dbBody.scrollHeight;
+}
+
+// Typing animation
+function showTyping() {
+  const div = document.createElement("div");
+  div.className = "typing";
+  div.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+  dbBody.appendChild(div);
+  dbBody.scrollTop = dbBody.scrollHeight;
+  return div;
+}
+
+dbFab.onclick = () => dbPanel.style.display = dbPanel.style.display === "flex" ? "none" : "flex";
+dbClose.onclick = () => dbPanel.style.display = "none";
+
+dbSend.onclick = async () => {
+  const q = dbInput.value.trim();
+  if (!q) return;
+  dbAppend("user", q);
+  dbInput.value = "";
+
+  const loader = showTyping();
+
+  try {
+    const res = await fetch("/api/db-chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question: q }),
+    });
+    const data = await res.json();
+    dbBody.removeChild(loader);
+    dbAppend("bot", data.answer || data.error || "⚠️ No response.");
+  } catch (err) {
+    dbBody.removeChild(loader);
+    dbAppend("bot", "⚠️ Connection error: " + err.message);
+  }
+};
+
+dbInput.addEventListener("keydown", (e) => { if (e.key === "Enter") dbSend.click(); });
+
+  loadDatabase();
+</script>
+</body>
+</html>
