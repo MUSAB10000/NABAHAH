@@ -75,7 +75,7 @@ The system follows a **three-layer architecture**:
 
 ## 70Installation
 
-### 1️⃣ Clone the Repository
+### Clone the Repository
 ```bash
 git clone https://github.com/MUSAB10000/NABAHAH.git
 cd NABAHAH
