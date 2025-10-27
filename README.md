@@ -82,6 +82,6 @@ cd NABAHAH
 ```
 ## All Models  
 You can find all trained models here:  
-[🔗 Models](https://drive.google.com/drive/folders/1fz9O_1Ix7JBGsIG9jq2FoJDP-HpOpkzy)
+[Models](https://drive.google.com/drive/folders/1fz9O_1Ix7JBGsIG9jq2FoJDP-HpOpkzy)
 
 
