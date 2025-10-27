@@ -1,5 +1,11 @@
 # NABAHAH (نباهة) – AI-Powered Laboratory Safety System
 
+## Team Members
+- Musab Alabdullatif
+- Mawda Alguraafi
+- Norah Bindaham
+- Turki Akbar
+
 ## 1-Overview
 **NABAHAH** (Arabic: *نباهة*, meaning *alertness*) is an **AI-driven laboratory safety monitoring system** that combines **Computer Vision**, **Database Management**, and **Real-Time Analytics** to enhance safety and compliance.
 
